@@ -1,0 +1,28 @@
+.imgborderyellow {
+  border: 2px;
+  color: black;
+  margin: 2px;
+  border-style: solid;
+  max-width: 90px;
+  max-height: 90px;
+  object-fit: cover;
+  background-color: yellow;
+}
+
+.imgborder {
+  border: 12px;
+  color: black;
+  margin: 2px;
+  border-style: solid;
+  max-width: 90px;
+  max-height: 90px;
+  object-fit: cover;
+}
+
+.oculto {
+    display: none;
+}
+
+.desoculto {
+  position: absolute;
+}
