@@ -79,13 +79,13 @@ function imgRandomOrder() {
     memoCard.$imgHTMLRef.src = ".img/" + memoCard.imgName + ".jpg";
   }
 
-  /*for (let i = 0; i < $imgHTMLRefs.length; i++) {
+  for (let i = 0; i < $imgHTMLRefs.length; i++) {
     if ($imgHTMLRefs[i].className == "imgborderyellow") {
       $imgHTMLRefs[i].src = ".img/neutroNN.jpg";
     } else {
       continue;
     }
-  }*/
+  }
 }
 
 $imgHTMLRefs.forEach(function ($cuadro) {
@@ -93,55 +93,60 @@ $imgHTMLRefs.forEach(function ($cuadro) {
 });
 
 let similarInputClicked = [];
+let contadorGanador = 0;
 
 function inputClicked(e) {
   const $cuadro = e.target;
   if ($cuadro.type == "image") {
     similarInputClicked.push($cuadro);
-
-    if (similarInputClicked[0] === similarInputClicked[1]) {
-      similarInputClicked.length = 1
-      return;
-    } else {
-      if (similarInputClicked.length > 2) {
-        bloquearInputUsuario;
-        similarInputClicked.length = 2;
-        //counterInputClicked = 0
-      } else {
-        $cuadro.className = "imgborder";
-      }
-
-      if (similarInputClicked.length == 2) {
-        if (similarInputClicked[0].src == similarInputClicked[1].src) {
-          similarInputClicked[0].className = "oculto";
-          similarInputClicked[1].className = "oculto";
-          similarInputClicked.length = 0;
-        } else {
-          //volver a ponerlas dadas vuelta
-          similarInputClicked[0].className = "imgborderyellow";
-          similarInputClicked[1].className = "imgborderyellow";
-          similarInputClicked.length = 0;
-        }
-      }
-      let contadorImgBorderYellow = 0;
-      for (let i = 0; i < $imgHTMLRefs.length; i++) {
-        if ($imgHTMLRefs[i].className !== "imgborderyellow") {
-          contadorImgBorderYellow++;
-        } else {
-          contadorImgBorderYellow = 0;
-        }
-        if (contadorImgBorderYellow == $imgHTMLRefs.length) {
-          ganarJuego();
-        }
-      }
-    }
+    $imgHTMLRefs[$cuadro.id].src =
+      "file:///D:/Programacion/MIO/memotest-r-Argenitna-Programa-main/.img/" +
+      memoCards[$cuadro.id].imgName +
+      ".jpg";
   }
 
-  function bloquearInputUsuario() {
-    $imgHTMLRefs.forEach(function ($cuadro) {
-      $cuadro.onclick = function () {};
-    });
+  if (similarInputClicked.length <= 2) {
+    similarInputClicked[0].className = "imgborder";
+    similarInputClicked[1].className = "imgborder";
+    bloquearInputUsuario();
   }
+
+  if (similarInputClicked[0] === similarInputClicked[1]) {
+    similarInputClicked.length = 1;
+    console.log(similarInputClicked)
+    return;
+  }
+
+  if (similarInputClicked[0].src == similarInputClicked[1].src) {
+    setTimeout(function () {
+      similarInputClicked[0].className = "oculto";
+      similarInputClicked[1].className = "oculto";
+      contadorGanador++;
+      similarInputClicked.length = 0;
+      bloquearInputUsuario();
+    }, 500);
+  } else {
+    setTimeout(function () {
+      similarInputClicked[0].src =
+        "file:///D:/Programacion/MIO/memotest-r-Argenitna-Programa-main/.img/neutroNN.jpg";
+      similarInputClicked[0].className = "imgborderyellow";
+      similarInputClicked[1].src =
+        "file:///D:/Programacion/MIO/memotest-r-Argenitna-Programa-main/.img/neutroNN.jpg";
+      similarInputClicked[1].className = "imgborderyellow";
+      similarInputClicked.length = 0;
+      bloquearInputUsuario();
+    }, 500);
+  }
+  desbloquearInputUsuario();
+  if (contadorGanador == 6) {
+    ganarJuego();
+  }
+}
+
+function bloquearInputUsuario() {
+  $imgHTMLRefs.forEach(function ($cuadro) {
+    $cuadro.onclick = function () {};
+  });
 }
 
 function desbloquearInputUsuario() {
